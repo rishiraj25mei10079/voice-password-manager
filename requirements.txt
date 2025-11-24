@@ -1,0 +1,16 @@
+numpy
+librosa
+sounddevice
+vosk
+scipy
+fastdtw
+
+
+Explanation:
+Library	Why it's needed
+numpy	MFCC storage, vector calculations
+librosa	MFCC extraction, audio processing
+sounddevice	Recording microphone input
+vosk	Offline speech-to-text model
+scipy	Distance functions (Euclidean)
+fastdtw	Fast DTW algorithm (voice similarity check)
