@@ -3,8 +3,8 @@ import numpy as np
 import librosa
 from config import MFCC_N_MFCC
 
-DURATION = 5  # record duration
-FS = 16000    # sample rate
+DURATION = 5  
+FS = 16000    
 
 def record_voice():
     print("\n🎤 Recording... Speak now.")
@@ -17,7 +17,7 @@ def record_voice():
 
 def extract_mfcc(audio, sr):
     mfcc = librosa.feature.mfcc(y=audio, sr=sr, n_mfcc=20)
-    averaged = np.mean(mfcc, axis=1)  # Always 1D
+    averaged = np.mean(mfcc, axis=1)  
     return averaged
 
 def verify_voice():
@@ -31,7 +31,6 @@ def verify_voice():
 
     saved_vec = np.load(VOICEPRINT_FILE)
 
-    # ----- COSINE SIMILARITY -----
     dot = np.dot(saved_vec, test_vec)
     normA = np.linalg.norm(saved_vec)
     normB = np.linalg.norm(test_vec)
