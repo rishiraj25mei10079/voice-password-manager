@@ -5,12 +5,11 @@ vosk
 scipy
 fastdtw
 
-
 Explanation:
-Library	Why it's needed
-numpy	MFCC storage, vector calculations
-librosa	MFCC extraction, audio processing
-sounddevice	Recording microphone input
-vosk	Offline speech-to-text model
-scipy	Distance functions (Euclidean)
-fastdtw	Fast DTW algorithm (voice similarity check)
+
+nump: Handles high-performance array operations for audio data structures.
+librosa: Extracts audio features (MFCCs) and handles signal processing.
+sounddevice: Captures real-time raw audio input from the microphone.
+vosk: Provides offline Automatic Speech Recognition (Speech-to-Text).
+scipy: Calculates spatial distances (Euclidean/Cosine) for vector comparison.
+fastdtw: Performs Dynamic Time Warping to compare voice signatures.
