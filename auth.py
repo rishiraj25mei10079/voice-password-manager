@@ -5,9 +5,7 @@ from config import MASTER_PASS_FILE, VOICEPRINT_FILE
 from audio_utils import record_voice, extract_mfcc
 
 
-# ------------------------------------------------------
-# REGISTER USER (Master Password + 3 Voice Samples)
-# ------------------------------------------------------
+
 def register():
     print("\n--- Registration ---")
 
@@ -26,7 +24,6 @@ def register():
         print(f"🎤 Recording sample {i+1}/3")
         audio, sr = record_voice()
 
-        # Check energy (blocks whispering)
         energy = np.sum(audio**2)
         if energy < 0.01:
             print("❌ Voice too weak, please speak normally.")
@@ -43,9 +40,7 @@ def register():
     print("✔ Registration complete! Voiceprint saved.\n")
 
 
-# ------------------------------------------------------
-# VERIFY MASTER PASSWORD
-# ------------------------------------------------------
+
 def verify_master():
     if not os.path.exists(MASTER_PASS_FILE):
         print("❌ No master password found. Please register first.")
@@ -59,9 +54,6 @@ def verify_master():
     return entered == real_pass
 
 
-# ------------------------------------------------------
-# VERIFY VOICE (Multi-sample + Pitch Check)
-# ------------------------------------------------------
 from vosk import Model, KaldiRecognizer
 import json
 
@@ -79,7 +71,6 @@ def verify_voice():
     print("\n🎤 Say: 'open my vault' clearly")
     audio, sr = record_voice()
 
-    # Step 1 — Speech Recognition Check
     spoken_text = speech_to_text(audio, sr)
     print("🗣 You said:", spoken_text)
 
@@ -87,7 +78,6 @@ def verify_voice():
         print("❌ Wrong phrase spoken!")
         return False
 
-    # Step 2 — Voice Identity Check (cosine MFCC)
     if not os.path.exists(VOICEPRINT_FILE):
         print("❌ No saved voiceprint found!")
         return False
@@ -106,36 +96,26 @@ def verify_voice():
     return np.sum(scores >= 0.99) >= 2
 
 
-    # ----------------------
-    # PITCH VERIFICATION
-    # ----------------------
+
     try:
-        # Extract pitch (f0) using librosa.yin
         test_pitch = np.mean(librosa.yin(audio, fmin=80, fmax=300))
 
-        # Estimate the saved pitch (average of all registered samples)
         saved_pitches = []
         for vec in saved_samples:
-            # Not enough info to extract pitch from MFCC,
-            # so we use the current audio to estimate pitch consistency.
+            
             pass
 
-        # We compare the new pitch to itself to ensure user actually speaks
         if test_pitch < 80 or test_pitch > 300:
             print("❌ Pitch out of range. Speak normally.")
             return False
 
     except Exception:
-        # If pitch extraction fails, skip (safe fallback)
         pass
 
     print("✔ Voice verified successfully!\n")
     return True
 
 
-# ------------------------------------------------------
-# LOGIN FLOW
-# ------------------------------------------------------
 def login():
     print("\n--- Logisn ---")
 
